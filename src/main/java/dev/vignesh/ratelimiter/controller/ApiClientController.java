@@ -2,6 +2,7 @@ package dev.vignesh.ratelimiter.controller;
 
 import dev.vignesh.ratelimiter.models.ApiClient;
 import dev.vignesh.ratelimiter.service.ApiClientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class ApiClientController
     private ApiClientService apiClientService;
 
     @PostMapping
-    ResponseEntity<ApiClient> createClient(@RequestBody ApiClient apiClient)
+    ResponseEntity<ApiClient> createClient(@Valid @RequestBody ApiClient apiClient)
     {
         return ResponseEntity.ok(apiClientService.createApiClient(apiClient));
     }
@@ -29,7 +30,7 @@ public class ApiClientController
 
 
     @PutMapping("/{id}")
-    ResponseEntity<ApiClient> updateApiClientById(@PathVariable Long id, @RequestBody ApiClient apiClient)
+    ResponseEntity<ApiClient> updateApiClientById(@PathVariable Long id, @Valid @RequestBody ApiClient apiClient)
     {
         return  ResponseEntity.ok(apiClientService.updateApiClientById(id, apiClient));
     }
