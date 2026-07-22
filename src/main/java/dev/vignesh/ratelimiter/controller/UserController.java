@@ -3,7 +3,9 @@ package dev.vignesh.ratelimiter.controller;
 import dev.vignesh.ratelimiter.models.User;
 import dev.vignesh.ratelimiter.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,16 +17,18 @@ public class UserController
 {
     @Autowired
     private UserService userService;
-    @GetMapping("")
-    public ResponseEntity<List<User>> getAllUsers()
-    {
-        return ResponseEntity.ok(userService.getAllUser());
-    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id)
     {
         return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<User>> getUserPager(@RequestParam int page,@RequestParam int size)
+    {
+        return ResponseEntity.ok(userService.getAllUserPager(page, size));
     }
 
     @PutMapping("/{id}")

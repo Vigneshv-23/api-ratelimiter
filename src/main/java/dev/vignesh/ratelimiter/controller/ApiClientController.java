@@ -4,6 +4,7 @@ import dev.vignesh.ratelimiter.models.ApiClient;
 import dev.vignesh.ratelimiter.service.ApiClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,11 @@ public class ApiClientController
     {
         return ResponseEntity.ok(apiClientService.getApiClientById(id));
     }
-
+    @GetMapping
+    ResponseEntity<Page<ApiClient>> getApiClientPage(@RequestParam int page,@RequestParam int size)
+    {
+        return ResponseEntity.ok(apiClientService.getAllClientsPager(page, size));
+    }
 
     @PutMapping("/{id}")
     ResponseEntity<ApiClient> updateApiClientById(@PathVariable Long id, @Valid @RequestBody ApiClient apiClient)
@@ -35,11 +40,6 @@ public class ApiClientController
         return  ResponseEntity.ok(apiClientService.updateApiClientById(id, apiClient));
     }
 
-    @GetMapping
-    ResponseEntity<List<ApiClient>> getAllClients()
-    {
-        return ResponseEntity.ok(apiClientService.getAllClients());
-    }
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteClient(@PathVariable Long id)

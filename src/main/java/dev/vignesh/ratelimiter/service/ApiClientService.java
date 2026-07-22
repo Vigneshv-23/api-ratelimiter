@@ -4,7 +4,9 @@ import dev.vignesh.ratelimiter.models.ApiClient;
 import dev.vignesh.ratelimiter.repository.ApiClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import java.util.List;
 
 @Service
@@ -34,6 +36,11 @@ public class ApiClientService
     public List<ApiClient> getAllClients()
     {
         return apiClientRepository.findAll();
+    }
+    public Page <ApiClient> getAllClientsPager(int page,int size)
+    {
+        Pageable pageable = PageRequest.of(page, size);
+        return apiClientRepository.findAll(pageable);
     }
 
     public void deleteClientById(Long id)
